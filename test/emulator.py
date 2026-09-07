@@ -131,11 +131,24 @@ def run(platform,fresh=False,record=0):
                 time.sleep(max(0,start+i-time.monotonic()))
                 grab(f'record-{i:02d}')
         assert any('Plate' in line for line in logs),'No native app frame log'
+        dimensions={'basalt':(144,168),'chalk':(180,180),'diorite':(144,168),'emery':(200,228),'flint':(144,168),'gabbro':(260,260)}
+        width,height=dimensions[platform];verified_fields=set()
+        for line in logs:
+            match=re.search(r'hour=(\d+) seed=(\d+) dots=(\d+) palette=(\d+) sig=([0-9a-f]+)',line)
+            if not match:continue
+            hour,seed,count,palette,signature=match.groups()
+            if (hour,seed) in verified_fields:continue
+            host=json.loads(subprocess.check_output([str(ROOT/'build/math-test'),'--dump',str(width),str(height),hour,seed]))
+            assert len(host['dots'])==int(count) and host['palette']==int(palette),'Native packing differs from source-verified host math'
+            assert host['signature']==int(signature,16),'Native raster positions, shape flags, or LAB colors differ from source-verified host math'
+            verified_fields.add((hour,seed))
+        assert len(verified_fields)>=8,'Insufficient native fields for source parity'
+
         assert not any(any(term in line.lower() for term in ('crash','fault','allocation failed')) for line in logs),'Native fault logged'
         assert hashlib.sha256(PBW.read_bytes()).hexdigest()==installed_sha,'PBW changed during native verification'
         report={'platform':platform,'pbwSHA256':installed_sha,
                 'capturedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                'secondsChanged':False,'minuteRegenerated':True,'minuteIdleStable':True,'handsToggleAndPersist':True,'naturalNoonRollover':True,'naturalMidnightRollover':True,
+                'nativeSourceParityFields':len(verified_fields),'secondsChanged':False,'minuteRegenerated':True,'minuteIdleStable':True,'handsToggleAndPersist':True,'naturalNoonRollover':True,'naturalMidnightRollover':True,
                 'cadenceFrames':{'idle':idle,'tap':burst,'settled':settled},'frames':frames,'logs':logs,
                 'limits':'Isolated emulator. Frames require visual inspection; not physical-device power/readability evidence.'}
         (out/f'{platform}-report.json').write_text(json.dumps(report,indent=2)+'\n')

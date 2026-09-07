@@ -36,6 +36,6 @@ def main():
             assert info['uuid']==package['pebble']['uuid'] and info['versionLabel']==version
         report={'archiveSHA256':sha(archive),'sourceArchive':archive.name,'independentPBWSHA256':sha(independent),'targets':info['targetPlatforms'],'hostMathTests':'passed','sdk':'4.33.1','buildOutsideSourceTree':'passed','note':'Canonical PBW remains the binary tied to native screenshots.'}
     (ROOT/'evidence/independent-build.json').write_text(json.dumps(report,indent=2)+'\n')
-    (out/'SHA256SUMS').write_text(''.join(f'{sha(p)}  {p.name}\n' for p in [artifact,archive]))
+    (out/'SHA256SUMS').write_text(''.join(f'{sha(p)}  {p.name}\n' for p in sorted(out.iterdir()) if p.suffix in ['.pbw','.zip']))
     print(json.dumps(report,indent=2))
 if __name__=='__main__':main()

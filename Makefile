@@ -9,6 +9,7 @@ test:
 	mkdir -p build
 	$(HOST_CC) -std=c11 -fsanitize=address,undefined -Wall -Wextra -Werror test/math.c src/c/plate.c -lm -o build/math-test
 	./build/math-test
+	node test/reference.mjs
 
 package:
 	$(PYTHON) tools/release.py

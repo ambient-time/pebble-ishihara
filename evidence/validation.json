@@ -1,7 +1,7 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "uuid": "92da807a-c4f9-4379-a62e-1da62ee04f5e",
-  "pbwSHA256": "2aa99e31c678dffc01c8978c2ef0789e7cb63640c2736a8c27866996cc404260",
+  "pbwSHA256": "597c47b833be4d66b91bb05ed31ecdb7fa9ff7d60addac49291fbf7cfa777591",
   "targets": [
     "basalt",
     "chalk",
@@ -11,5 +11,13 @@
     "gabbro"
   ],
   "nativeChecks": "Passed; see platform reports.",
+  "nativeSourceParityFields": {
+    "basalt": 9,
+    "chalk": 9,
+    "diorite": 9,
+    "emery": 9,
+    "flint": 10,
+    "gabbro": 9
+  },
   "limits": "Emulator evidence. Physical-watch readability and battery use remain unmeasured."
 }

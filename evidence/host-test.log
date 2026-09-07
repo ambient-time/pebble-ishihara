@@ -1,4 +1,6 @@
 mkdir -p build
 clang -std=c11 -fsanitize=address,undefined -Wall -Wextra -Werror test/math.c src/c/plate.c -lm -o build/math-test
 ./build/math-test
-Ishihara: every hour mask, deterministic organic packing, gaps, minute regeneration and day rollovers pass.
+Ishihara: all hours and screen sizes, source mask proportions, minute/day rollover, deterministic packing and color encoding pass.
+node test/reference.mjs
+Pinned-source parity: 48 complete fields, 18045 circles, all coordinates/radii, palette choices and quantized LAB colors match.

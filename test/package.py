@@ -30,6 +30,7 @@ def main():
             assert report['naturalNoonRollover'] and report['naturalMidnightRollover']
             if ROOT.name=='ishihara':
                 assert report['minuteRegenerated'] and report['minuteIdleStable'] and report['handsToggleAndPersist']
+                assert report['nativeSourceParityFields']>=8
             else:
                 assert report['secondsChanged']
                 cadence=report['cadenceFrames'];assert cadence['idle'] and cadence['tap'] and cadence['settled']
@@ -45,7 +46,7 @@ def main():
         (evidence/f'{platform}-report.json').write_text(json.dumps(exported,indent=2)+'\n')
     shutil.copy2(ROOT/'build/build.log',evidence/'build.log')
     shutil.copy2(ROOT/'build/host-test.log',evidence/'host-test.log')
-    summary={'version':source['version'],'uuid':source['pebble']['uuid'],'pbwSHA256':digest,'targets':sorted(reports),'nativeChecks':'Passed; see platform reports.','limits':'Emulator evidence. Physical-watch readability and battery use remain unmeasured.'}
+    summary={'version':source['version'],'uuid':source['pebble']['uuid'],'pbwSHA256':digest,'targets':sorted(reports),'nativeChecks':'Passed; see platform reports.','nativeSourceParityFields':{p:r['nativeSourceParityFields'] for p,r in reports.items()},'limits':'Emulator evidence. Physical-watch readability and battery use remain unmeasured.'}
     (evidence/'validation.json').write_text(json.dumps(summary,indent=2)+'\n')
     print(json.dumps(summary,indent=2))
 if __name__=='__main__':main()

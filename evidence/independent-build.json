@@ -1,7 +1,7 @@
 {
-  "archiveSHA256": "744f0e2efbd6f26393988329f25adaf636c48e54059201b236ab3d4dde2921bf",
-  "sourceArchive": "ishihara-0.1.0-source.zip",
-  "independentPBWSHA256": "5ccb62e07664c310bb50a90e93e3204234120cd3eb18720a94c75cfe5aa5be07",
+  "archiveSHA256": "97fe5fad8373db4b6f1cc12ea8a015a19cfc6a48a89db1bd02928ebb937180b3",
+  "sourceArchive": "ishihara-0.1.1-source.zip",
+  "independentPBWSHA256": "57113f306a6f90ddb28340172fc85b6cd6e5819fb121d250113296924f79b652",
   "targets": [
     "basalt",
     "chalk",

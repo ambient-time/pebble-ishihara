@@ -1,7 +1,7 @@
 {
   "name": "ishihara",
   "author": "Luke Steuber",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "keywords": [
     "pebble-app"
@@ -26,26 +26,7 @@
     },
     "messageKeys": [],
     "resources": {
-      "media": [
-        {
-          "type": "font",
-          "name": "TIME_16",
-          "file": "fonts/BarlowCondensed-Bold.ttf",
-          "characterRegex": "[0-9:APM ]"
-        },
-        {
-          "type": "font",
-          "name": "TIME_20",
-          "file": "fonts/BarlowCondensed-Bold.ttf",
-          "characterRegex": "[0-9:APM ]"
-        },
-        {
-          "type": "font",
-          "name": "TIME_24",
-          "file": "fonts/BarlowCondensed-Bold.ttf",
-          "characterRegex": "[0-9:APM ]"
-        }
-      ]
+      "media": []
     }
   }
 }
