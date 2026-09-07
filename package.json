@@ -1,0 +1,51 @@
+{
+  "name": "ishihara",
+  "author": "Luke Steuber",
+  "version": "0.1.0",
+  "private": true,
+  "keywords": [
+    "pebble-app"
+  ],
+  "dependencies": {},
+  "pebble": {
+    "displayName": "Ishihara",
+    "companyName": "Luke Steuber",
+    "uuid": "92da807a-c4f9-4379-a62e-1da62ee04f5e",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "basalt",
+      "chalk",
+      "diorite",
+      "emery",
+      "flint",
+      "gabbro"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [],
+    "resources": {
+      "media": [
+        {
+          "type": "font",
+          "name": "TIME_16",
+          "file": "fonts/BarlowCondensed-Bold.ttf",
+          "characterRegex": "[0-9:APM ]"
+        },
+        {
+          "type": "font",
+          "name": "TIME_20",
+          "file": "fonts/BarlowCondensed-Bold.ttf",
+          "characterRegex": "[0-9:APM ]"
+        },
+        {
+          "type": "font",
+          "name": "TIME_24",
+          "file": "fonts/BarlowCondensed-Bold.ttf",
+          "characterRegex": "[0-9:APM ]"
+        }
+      ]
+    }
+  }
+}

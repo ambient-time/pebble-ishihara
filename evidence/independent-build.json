@@ -1,0 +1,17 @@
+{
+  "archiveSHA256": "744f0e2efbd6f26393988329f25adaf636c48e54059201b236ab3d4dde2921bf",
+  "sourceArchive": "ishihara-0.1.0-source.zip",
+  "independentPBWSHA256": "5ccb62e07664c310bb50a90e93e3204234120cd3eb18720a94c75cfe5aa5be07",
+  "targets": [
+    "basalt",
+    "chalk",
+    "diorite",
+    "emery",
+    "flint",
+    "gabbro"
+  ],
+  "hostMathTests": "passed",
+  "sdk": "4.33.1",
+  "buildOutsideSourceTree": "passed",
+  "note": "Canonical PBW remains the binary tied to native screenshots."
+}

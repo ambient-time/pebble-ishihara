@@ -1,0 +1,4 @@
+mkdir -p build
+clang -std=c11 -fsanitize=address,undefined -Wall -Wextra -Werror test/math.c src/c/plate.c -lm -o build/math-test
+./build/math-test
+Ishihara: every hour mask, deterministic organic packing, gaps, minute regeneration and day rollovers pass.

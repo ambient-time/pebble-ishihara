@@ -1,0 +1,185 @@
+mkdir -p build
+clang -std=c11 -fsanitize=address,undefined -Wall -Wextra -Werror test/math.c src/c/plate.c -lm -o build/math-test
+./build/math-test
+Ishihara: every hour mask, deterministic organic packing, gaps, minute regeneration and day rollovers pass.
+Setting top to                           : /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara 
+Setting out to                           : /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build 
+Checking for program 'webpack'           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/node_modules/.bin/webpack 
+Found Pebble SDK for gabbro in:          : /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/gabbro 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for flint in:           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/flint 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for emery in:           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/emery 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for diorite in:         : /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/diorite 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for chalk in:           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/chalk 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for basalt in:          : /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/basalt 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+'configure' finished successfully (0.147s)
+Waf: Entering directory `/private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build'
+[1/1] Creating message_key_header:  -> build/include/message_keys.auto.h
+[ 2/17] Compiling gabbro | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/gabbro/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso
+[ 3/17] Compiling gabbro | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/gabbro/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso
+[ 4/17] Compiling gabbro | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/gabbro/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso
+[ 5/17] Creating gabbro | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/gabbro/appinfo.auto.c:  -> build/gabbro/appinfo.auto.c
+[ 6/17] Compiling gabbro | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/common/pebble_app.ld.template -> build/gabbro/pebble_app.ld.auto
+[ 7/17] Compiling gabbro | c: src/c/plate.c -> build/src/c/plate.c.44.o
+[ 8/17] Creating gabbro | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/appinfo.json:  -> build/appinfo.json
+[ 9/17] Processing gabbro | resource_ball: build/gabbro/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso build/gabbro/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso build/gabbro/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso -> build/gabbro/system_resources.resball
+[10/17] Compiling gabbro | generate_resource_id_definitions: build/gabbro/system_resources.resball -> build/gabbro/src/resource_ids.auto.c
+[11/17] Compiling gabbro | generate_pbpack: build/gabbro/system_resources.resball -> build/gabbro/app_resources.pbpack
+[12/17] Compiling gabbro | generate_resource_id_header: build/gabbro/system_resources.resball -> build/gabbro/src/resource_ids.auto.h
+[13/17] Compiling gabbro | c: build/gabbro/src/resource_ids.auto.c -> build/gabbro/src/resource_ids.auto.c.44.o
+[14/17] Compiling gabbro | c: src/c/main.c -> build/src/c/main.c.44.o
+[15/17] Compiling gabbro | c: build/gabbro/appinfo.auto.c -> build/gabbro/appinfo.auto.c.44.o
+[16/17] Linking gabbro | cprogram: build/src/c/main.c.44.o build/src/c/plate.c.44.o build/gabbro/appinfo.auto.c.44.o build/gabbro/src/resource_ids.auto.c.44.o -> build/gabbro/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/gabbro/pebble-app.elf has a LOAD segment with RWX permissions
+
+[17/17] Processing gabbro | memory_usage_report: build/gabbro/pebble-app.elf build/gabbro/app_resources.pbpack
+-------------------------------------------------------
+GABBRO APP MEMORY USAGE
+Total size of resources:        8417 bytes / 256.0KB
+Total footprint in RAM:         14749 bytes / 128.0KB
+Free RAM available (heap):      116323 bytes
+------------------------------------------------------- 
+[18/33] Compiling flint | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/flint/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso
+[19/33] Compiling flint | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/flint/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso
+[20/33] Compiling flint | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/flint/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso
+[22/33] Creating flint | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/flint/appinfo.auto.c:  -> build/flint/appinfo.auto.c
+[23/33] Compiling flint | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/common/pebble_app.ld.template -> build/flint/pebble_app.ld.auto
+[24/33] Compiling flint | c: src/c/plate.c -> build/src/c/plate.c.45.o
+[25/33] Processing flint | resource_ball: build/flint/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso build/flint/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso build/flint/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso -> build/flint/system_resources.resball
+[26/33] Compiling flint | generate_resource_id_definitions: build/flint/system_resources.resball -> build/flint/src/resource_ids.auto.c
+[27/33] Compiling flint | generate_pbpack: build/flint/system_resources.resball -> build/flint/app_resources.pbpack
+[28/33] Compiling flint | generate_resource_id_header: build/flint/system_resources.resball -> build/flint/src/resource_ids.auto.h
+[29/33] Compiling flint | c: build/flint/src/resource_ids.auto.c -> build/flint/src/resource_ids.auto.c.45.o
+[30/33] Compiling flint | c: src/c/main.c -> build/src/c/main.c.45.o
+[31/33] Compiling flint | c: build/flint/appinfo.auto.c -> build/flint/appinfo.auto.c.45.o
+[32/33] Linking flint | cprogram: build/src/c/main.c.45.o build/src/c/plate.c.45.o build/flint/appinfo.auto.c.45.o build/flint/src/resource_ids.auto.c.45.o -> build/flint/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/flint/pebble-app.elf has a LOAD segment with RWX permissions
+
+[33/33] Processing flint | memory_usage_report: build/flint/pebble-app.elf build/flint/app_resources.pbpack
+-------------------------------------------------------
+FLINT APP MEMORY USAGE
+Total size of resources:        8417 bytes / 256.0KB
+Total footprint in RAM:         14669 bytes / 64.0KB
+Free RAM available (heap):      50867 bytes
+------------------------------------------------------- 
+[34/49] Compiling emery | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/emery/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso
+[35/49] Compiling emery | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/emery/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso
+[36/49] Compiling emery | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/emery/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso
+[37/49] Creating emery | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/emery/appinfo.auto.c:  -> build/emery/appinfo.auto.c
+[38/49] Compiling emery | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/common/pebble_app.ld.template -> build/emery/pebble_app.ld.auto
+[40/49] Compiling emery | c: src/c/plate.c -> build/src/c/plate.c.46.o
+[41/49] Processing emery | resource_ball: build/emery/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso build/emery/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso build/emery/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso -> build/emery/system_resources.resball
+[42/49] Compiling emery | generate_resource_id_definitions: build/emery/system_resources.resball -> build/emery/src/resource_ids.auto.c
+[43/49] Compiling emery | generate_pbpack: build/emery/system_resources.resball -> build/emery/app_resources.pbpack
+[44/49] Compiling emery | generate_resource_id_header: build/emery/system_resources.resball -> build/emery/src/resource_ids.auto.h
+[45/49] Compiling emery | c: build/emery/src/resource_ids.auto.c -> build/emery/src/resource_ids.auto.c.46.o
+[46/49] Compiling emery | c: src/c/main.c -> build/src/c/main.c.46.o
+[47/49] Compiling emery | c: build/emery/appinfo.auto.c -> build/emery/appinfo.auto.c.46.o
+[48/49] Linking emery | cprogram: build/src/c/main.c.46.o build/src/c/plate.c.46.o build/emery/appinfo.auto.c.46.o build/emery/src/resource_ids.auto.c.46.o -> build/emery/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/emery/pebble-app.elf has a LOAD segment with RWX permissions
+
+[49/49] Processing emery | memory_usage_report: build/emery/pebble-app.elf build/emery/app_resources.pbpack
+-------------------------------------------------------
+EMERY APP MEMORY USAGE
+Total size of resources:        8417 bytes / 256.0KB
+Total footprint in RAM:         14765 bytes / 128.0KB
+Free RAM available (heap):      116307 bytes
+------------------------------------------------------- 
+[50/65] Compiling diorite | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/diorite/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso
+[51/65] Compiling diorite | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/diorite/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso
+[52/65] Compiling diorite | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/diorite/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso
+[53/65] Creating diorite | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/diorite/appinfo.auto.c:  -> build/diorite/appinfo.auto.c
+[54/65] Compiling diorite | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/common/pebble_app.ld.template -> build/diorite/pebble_app.ld.auto
+[56/65] Compiling diorite | c: src/c/plate.c -> build/src/c/plate.c.47.o
+[57/65] Processing diorite | resource_ball: build/diorite/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso build/diorite/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso build/diorite/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso -> build/diorite/system_resources.resball
+[58/65] Compiling diorite | generate_resource_id_definitions: build/diorite/system_resources.resball -> build/diorite/src/resource_ids.auto.c
+[59/65] Compiling diorite | generate_pbpack: build/diorite/system_resources.resball -> build/diorite/app_resources.pbpack
+[60/65] Compiling diorite | c: build/diorite/src/resource_ids.auto.c -> build/diorite/src/resource_ids.auto.c.47.o
+[61/65] Compiling diorite | generate_resource_id_header: build/diorite/system_resources.resball -> build/diorite/src/resource_ids.auto.h
+[62/65] Compiling diorite | c: src/c/main.c -> build/src/c/main.c.47.o
+[63/65] Compiling diorite | c: build/diorite/appinfo.auto.c -> build/diorite/appinfo.auto.c.47.o
+[64/65] Linking diorite | cprogram: build/src/c/main.c.47.o build/src/c/plate.c.47.o build/diorite/appinfo.auto.c.47.o build/diorite/src/resource_ids.auto.c.47.o -> build/diorite/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/diorite/pebble-app.elf has a LOAD segment with RWX permissions
+
+[65/65] Processing diorite | memory_usage_report: build/diorite/pebble-app.elf build/diorite/app_resources.pbpack
+-------------------------------------------------------
+DIORITE APP MEMORY USAGE
+Total size of resources:        8417 bytes / 256.0KB
+Total footprint in RAM:         14669 bytes / 64.0KB
+Free RAM available (heap):      50867 bytes
+------------------------------------------------------- 
+[66/81] Compiling chalk | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/chalk/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso
+[67/81] Compiling chalk | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/chalk/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso
+[68/81] Compiling chalk | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/chalk/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso
+[69/81] Creating chalk | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/chalk/appinfo.auto.c:  -> build/chalk/appinfo.auto.c
+[70/81] Compiling chalk | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/common/pebble_app.ld.template -> build/chalk/pebble_app.ld.auto
+[72/81] Compiling chalk | c: src/c/plate.c -> build/src/c/plate.c.48.o
+[73/81] Processing chalk | resource_ball: build/chalk/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso build/chalk/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso build/chalk/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso -> build/chalk/system_resources.resball
+[74/81] Compiling chalk | generate_resource_id_definitions: build/chalk/system_resources.resball -> build/chalk/src/resource_ids.auto.c
+[75/81] Compiling chalk | generate_pbpack: build/chalk/system_resources.resball -> build/chalk/app_resources.pbpack
+[76/81] Compiling chalk | generate_resource_id_header: build/chalk/system_resources.resball -> build/chalk/src/resource_ids.auto.h
+[77/81] Compiling chalk | c: build/chalk/src/resource_ids.auto.c -> build/chalk/src/resource_ids.auto.c.48.o
+[78/81] Compiling chalk | c: src/c/main.c -> build/src/c/main.c.48.o
+[79/81] Compiling chalk | c: build/chalk/appinfo.auto.c -> build/chalk/appinfo.auto.c.48.o
+[80/81] Linking chalk | cprogram: build/src/c/main.c.48.o build/src/c/plate.c.48.o build/chalk/appinfo.auto.c.48.o build/chalk/src/resource_ids.auto.c.48.o -> build/chalk/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/chalk/pebble-app.elf has a LOAD segment with RWX permissions
+
+[81/81] Processing chalk | memory_usage_report: build/chalk/pebble-app.elf build/chalk/app_resources.pbpack
+-------------------------------------------------------
+CHALK APP MEMORY USAGE
+Total size of resources:        8417 bytes / 256.0KB
+Total footprint in RAM:         14749 bytes / 64.0KB
+Free RAM available (heap):      50787 bytes
+------------------------------------------------------- 
+[82/97] Compiling basalt | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/basalt/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso
+[83/97] Compiling basalt | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/basalt/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso
+[84/97] Compiling basalt | reso: resources/fonts/BarlowCondensed-Bold.ttf -> build/basalt/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso
+[85/97] Creating basalt | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/basalt/appinfo.auto.c:  -> build/basalt/appinfo.auto.c
+[87/97] Compiling basalt | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/sdk-core/pebble/common/pebble_app.ld.template -> build/basalt/pebble_app.ld.auto
+[88/97] Compiling basalt | c: src/c/plate.c -> build/src/c/plate.c.49.o
+[89/97] Processing basalt | resource_ball: build/basalt/resources/fonts/BarlowCondensed-Bold.ttf.TIME_16.reso build/basalt/resources/fonts/BarlowCondensed-Bold.ttf.TIME_20.reso build/basalt/resources/fonts/BarlowCondensed-Bold.ttf.TIME_24.reso -> build/basalt/system_resources.resball
+[90/97] Compiling basalt | generate_resource_id_definitions: build/basalt/system_resources.resball -> build/basalt/src/resource_ids.auto.c
+[91/97] Compiling basalt | generate_pbpack: build/basalt/system_resources.resball -> build/basalt/app_resources.pbpack
+[92/97] Compiling basalt | generate_resource_id_header: build/basalt/system_resources.resball -> build/basalt/src/resource_ids.auto.h
+[93/97] Compiling basalt | c: src/c/main.c -> build/src/c/main.c.49.o
+[94/97] Compiling basalt | c: build/basalt/appinfo.auto.c -> build/basalt/appinfo.auto.c.49.o
+[95/97] Compiling basalt | c: build/basalt/src/resource_ids.auto.c -> build/basalt/src/resource_ids.auto.c.49.o
+[96/97] Linking basalt | cprogram: build/src/c/main.c.49.o build/src/c/plate.c.49.o build/basalt/appinfo.auto.c.49.o build/basalt/src/resource_ids.auto.c.49.o -> build/basalt/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/basalt/pebble-app.elf has a LOAD segment with RWX permissions
+
+[97/97] Processing basalt | memory_usage_report: build/basalt/pebble-app.elf build/basalt/app_resources.pbpack
+-------------------------------------------------------
+BASALT APP MEMORY USAGE
+Total size of resources:        8417 bytes / 256.0KB
+Total footprint in RAM:         14765 bytes / 64.0KB
+Free RAM available (heap):      50771 bytes
+------------------------------------------------------- 
+[ 98/110] Compiling gabbro | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/gabbro/pebble-app.raw.bin: build/gabbro/pebble-app.elf -> build/gabbro/pebble-app.raw.bin
+[ 99/110] Compiling flint | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/flint/pebble-app.raw.bin: build/flint/pebble-app.elf -> build/flint/pebble-app.raw.bin
+[100/110] Compiling emery | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/emery/pebble-app.raw.bin: build/emery/pebble-app.elf -> build/emery/pebble-app.raw.bin
+[101/110] Compiling diorite | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/diorite/pebble-app.raw.bin: build/diorite/pebble-app.elf -> build/diorite/pebble-app.raw.bin
+[102/110] Compiling chalk | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/chalk/pebble-app.raw.bin: build/chalk/pebble-app.elf -> build/chalk/pebble-app.raw.bin
+[103/110] Compiling basalt | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build/basalt/pebble-app.raw.bin: build/basalt/pebble-app.elf -> build/basalt/pebble-app.raw.bin
+[104/110] Processing emery | inject-metadata: build/emery/pebble-app.raw.bin build/emery/pebble-app.elf build/emery/app_resources.pbpack -> build/emery/pebble-app.bin
+[105/110] Processing basalt | inject-metadata: build/basalt/pebble-app.raw.bin build/basalt/pebble-app.elf build/basalt/app_resources.pbpack -> build/basalt/pebble-app.bin
+[106/110] Processing gabbro | inject-metadata: build/gabbro/pebble-app.raw.bin build/gabbro/pebble-app.elf build/gabbro/app_resources.pbpack -> build/gabbro/pebble-app.bin
+[107/110] Processing diorite | inject-metadata: build/diorite/pebble-app.raw.bin build/diorite/pebble-app.elf build/diorite/app_resources.pbpack -> build/diorite/pebble-app.bin
+[108/110] Processing chalk | inject-metadata: build/chalk/pebble-app.raw.bin build/chalk/pebble-app.elf build/chalk/app_resources.pbpack -> build/chalk/pebble-app.bin
+[109/110] Processing flint | inject-metadata: build/flint/pebble-app.raw.bin build/flint/pebble-app.elf build/flint/app_resources.pbpack -> build/flint/pebble-app.bin
+[110/110] Creating app_bundle:  -> build/ishihara.pbw
+Waf: Leaving directory `/private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/ishihara-portable-q35x9dfs/ishihara/build'
+'build' finished successfully (1.112s)
+
+[1m[33mA new pebble-tool is available: v5.0.40 (current: v5.0.39)[0m
+[33m  Update with: uv tool upgrade pebble-tool[0m

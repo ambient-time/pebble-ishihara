@@ -1,0 +1,382 @@
+<!doctype html>
+<!--
+  Quick Take: A self-regenerating Ishihara-plate clock.
+  Stack: Self-contained; no external libraries.
+  Source: https://datapoems.io/clocks/ishihara/
+  License: MIT
+  Author: Luke Steuber
+-->
+<html class="collection-export embed" lang="en"><head>
+<script>window.CLOCK_COLLECTION_EXPORT=true;</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Colorblind</title>
+<meta name="description" content="A self-regenerating Ishihara-plate clock. Every minute a fresh dot field is packed and the current hour is hidden in it as a numeral, drawn in colors that sit on a red-green or blue-yellow confusion line so the figure is visible to normal vision but collapses for the targeted color-vision deficiency.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #0c0b09; overflow: hidden; font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  #scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  .help {
+    position: fixed; right: max(20px, env(safe-area-inset-right)); top: max(16px, env(safe-area-inset-top)); z-index: 5;
+    width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; border: 1px solid rgba(230,222,205,.35); color: rgba(230,222,205,.85);
+    text-decoration: none; font-weight: 700; font-size: 1.2rem; background: rgba(12,11,9,.4);
+    backdrop-filter: blur(4px); transition: background .25s, border-color .25s, transform .25s;
+  }
+  .help:hover, .help:focus-visible { background: rgba(230,222,205,.12); border-color: #e6decd; transform: scale(1.06); outline: none; }
+  #note {
+    position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 4; text-align: center;
+    color: rgba(230,222,205,.62); font-size: 12px; letter-spacing: .04em; pointer-events: none;
+    text-shadow: 0 1px 3px rgba(0,0,0,.8);
+  }
+  #note b { color: rgba(230,222,205,.9); font-weight: 600; }
+  /* Featured / gallery embeds: hide help + plate caption; plate stays. */
+  html.embed .help,
+  html.embed #note { display: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+<style data-collection-chrome>
+.dev-controls,
+.study-controls,
+.help,
+.back,
+.about-backdrop,
+.about-modal,
+.about-card,
+.gate-controls,
+a[aria-label*='about' i],
+button[aria-label*='about' i],
+a[aria-label*='help' i],
+button[aria-label*='help' i],
+a[aria-label*='all clocks' i],
+button[aria-label*='all clocks' i],
+a[aria-label*='clock gallery' i],
+button[aria-label*='clock gallery' i]{display:none!important}
+</style>
+</head><body class="collection-export embed">
+  <canvas id="scene" role="img" aria-label="An Ishihara colorblindness-test plate rendered as a clock: a dense field of colored dots with the current hour hidden as a numeral, regenerating every minute."></canvas>
+  <a class="help" href="https://lukesteuber.com" aria-label="Luke Steuber's website">?</a>
+  <p id="note" aria-hidden="true"></p>
+  <div class="sr-only" id="sr" aria-live="polite"></div>
+  <script>
+  (function () {
+    'use strict';
+
+    /* Featured iframes pass ?embed=1; also detect nested frames without the flag. */
+    var qs = new URLSearchParams(location.search);
+    var embed = qs.get('embed') === '1' || qs.get('embed') === '' || (window.self !== window.top);
+    if (embed) document.documentElement.classList.add('embed');
+
+    var canvas = document.getElementById('scene');
+    var ctx = canvas.getContext('2d');
+    var srEl = document.getElementById('sr');
+    var noteEl = document.getElementById('note');
+
+    var W = 0, H = 0, dpr = 1;
+    var cx = 0, cy = 0, R = 0;
+
+    // ---------------------------------------------------------------------
+    // Color science ported verbatim from the server's colorblindness test:
+    //   /home/coolhand/html/colorblindness-test/index.html
+    // labToHex (CIELAB -> XYZ(D65) -> linear sRGB -> gamma -> hex) and
+    // rndColor (per-dot LAB jitter) are copied exactly so the figure/ground
+    // pairs render in the same verified CIELAB color model. The fg/bg triples
+    // below are the test's confusion-line pairs (protan/deutan/tritan): fg and
+    // bg share L and LR so there is no luminance leak — the figure separates
+    // purely on chroma (a* for red-green, the Brettel line for tritan).
+    // ---------------------------------------------------------------------
+    function labToHex(L, a, b) {
+      // CIELAB -> XYZ via inverse f function
+      var delta = 6 / 29;
+      var k = 3 * delta * delta;
+      function fInv(t) { return t > delta ? t * t * t : k * (t - 4 / 29); }
+      var fy = (L + 16) / 116;
+      var X = 0.95047 * fInv(fy + a / 500);
+      var Y = 1.00000 * fInv(fy);
+      var Z = 1.08883 * fInv(fy - b / 200);
+      // XYZ -> linear sRGB (IEC 61966-2-1)
+      var rl =  3.2404542 * X - 1.5371385 * Y - 0.4985314 * Z;
+      var gl = -0.9692660 * X + 1.8760108 * Y + 0.0415560 * Z;
+      var bl =  0.0556434 * X - 0.2040259 * Y + 1.0572252 * Z;
+      function gamma(c) {
+        c = Math.max(0, Math.min(1, c));
+        return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+      }
+      function hex(v) {
+        var n = Math.round(Math.max(0, Math.min(255, v * 255)));
+        return (n < 16 ? '0' : '') + n.toString(16);
+      }
+      return '#' + hex(gamma(rl)) + hex(gamma(gl)) + hex(gamma(bl));
+    }
+
+    function rndColor(cfg, rng) {
+      return labToHex(
+        cfg.L + (rng() - 0.5) * cfg.LR,
+        cfg.a + (rng() - 0.5) * cfg.aR,
+        cfg.b + (rng() - 0.5) * cfg.bR
+      );
+    }
+
+    // ---- deterministic PRNG (mulberry32, ported verbatim) ------------------
+    function mulberry32(a) {
+      return function () {
+        a |= 0; a = (a + 0x6D2B79F5) | 0;
+        var t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    // ---------------------------------------------------------------------
+    // Confusion-line fg/bg pairs reused from the test's PLATES array.
+    // Each triple {L, LR, a, aR, b, bR} is copied exactly from a verified
+    // plate. fg and bg share L and LR (no luminance leak).
+    //   protan  <- PLATES[7] "3"  (fg L65 a-39, bg L65 a45; dE_protan ~3.5)
+    //   deutan  <- PLATES[8] "9"  (fg L65 a-23, bg L65 a53; dE_deutan ~5.1)
+    //   tritan  <- PLATES[4] "5"  (Brettel-line pair; dE_tritan ~0)
+    // ---------------------------------------------------------------------
+    var DEFS = {
+      protan: {
+        desc: 'red-blind',
+        fg: { L: 65, LR: 10, a: -39, aR: 6, b: -3, bR: 8 },
+        bg: { L: 65, LR: 10, a: 45, aR: 6, b: 5, bR: 8 }
+      },
+      deutan: {
+        desc: 'green-blind',
+        fg: { L: 65, LR: 10, a: -23, aR: 6, b: 9, bR: 8 },
+        bg: { L: 65, LR: 10, a: 53, aR: 6, b: -3, bR: 8 }
+      },
+      tritan: {
+        desc: 'blue-yellow',
+        fg: { L: 50, LR: 12, a: -23, aR: 8, b: 53, bR: 8 },
+        bg: { L: 50, LR: 12, a: 41, aR: 8, b: -55, bR: 8 }
+      }
+    };
+
+    // ---------------------------------------------------------------------
+    // createMask — ported from the test's createMask(size, plate). Renders the
+    // numeral with ctx.font='900 ...px Arial' + stroke/fillText to an offscreen
+    // canvas and returns the raw pixel buffer. This makes the figure a SMOOTH
+    // numeral (sampled per dot), never a blocky grid font.
+    // ---------------------------------------------------------------------
+    function createMask(size, value) {
+      size = Math.round(size);
+      var mask = document.createElement('canvas');
+      mask.width = size; mask.height = size;
+      var mctx = mask.getContext('2d');
+      var mcx = size / 2, mcy = size / 2;
+      var digits = value.length;
+      var fontSize = digits > 1 ? size * 0.42 : size * 0.55;
+      mctx.font = '900 ' + fontSize + 'px Arial, Helvetica, sans-serif';
+      mctx.textAlign = 'center'; mctx.textBaseline = 'middle';
+      mctx.lineJoin = 'round'; mctx.lineWidth = fontSize * 0.08;
+      mctx.strokeStyle = '#fff'; mctx.strokeText(value, mcx, mcy);
+      mctx.fillStyle = '#fff'; mctx.fillText(value, mcx, mcy);
+      return { data: mctx.getImageData(0, 0, size, size).data, size: size };
+    }
+
+    // ---------------------------------------------------------------------
+    // poissonDiskSample — ported verbatim from the test. Organic varied-radius
+    // dot packing (Poisson disk), not a grid.
+    // ---------------------------------------------------------------------
+    function poissonDiskSample(pcx, pcy, plateR, minR, maxR, rng) {
+      var cellSize = minR * 1.5 / Math.SQRT2;
+      var gridW = Math.ceil(plateR * 2 / cellSize);
+      var grid = new Array(gridW * gridW).fill(-1);
+      var dots = [], active = [];
+      function gi(x, y) {
+        var gx = Math.floor((x - pcx + plateR) / cellSize);
+        var gy = Math.floor((y - pcy + plateR) / cellSize);
+        return (gx < 0 || gx >= gridW || gy < 0 || gy >= gridW) ? -1 : gy * gridW + gx;
+      }
+      function canPlace(x, y, r) {
+        if (Math.hypot(x - pcx, y - pcy) + r > plateR - 1) return false;
+        var idx = gi(x, y); if (idx < 0) return false;
+        var gx = Math.floor((x - pcx + plateR) / cellSize);
+        var gy = Math.floor((y - pcy + plateR) / cellSize);
+        for (var dy = -3; dy <= 3; dy++) for (var dx = -3; dx <= 3; dx++) {
+          var nx = gx + dx, ny = gy + dy;
+          if (nx < 0 || nx >= gridW || ny < 0 || ny >= gridW) continue;
+          var ni = ny * gridW + nx;
+          if (grid[ni] >= 0) { var o = dots[grid[ni]]; if (Math.hypot(x - o.x, y - o.y) < r + o.r + 0.8) return false; }
+        }
+        return true;
+      }
+      function add(x, y) {
+        var r = minR + rng() * (maxR - minR);
+        if (!canPlace(x, y, r)) return false;
+        var i = dots.length; dots.push({ x: x, y: y, r: r }); active.push(i);
+        var idx = gi(x, y); if (idx >= 0) grid[idx] = i; return true;
+      }
+      add(pcx, pcy);
+      while (active.length > 0) {
+        var ai = Math.floor(rng() * active.length), src = dots[active[ai]], found = false;
+        for (var i = 0; i < 30; i++) {
+          var a = rng() * Math.PI * 2, d = minR * 2 + rng() * minR * 2.5;
+          if (add(src.x + Math.cos(a) * d, src.y + Math.sin(a) * d)) { found = true; break; }
+        }
+        if (!found) active.splice(ai, 1);
+      }
+      return dots;
+    }
+
+    // ---- current plate state ----------------------------------------------
+    var dots = [];          // current dots {x,y,r,color}
+    var prevDots = [];      // previous plate for cross-fade
+    var fade = 1;           // 0..1 transition progress (1 = settled)
+    var plateNumber = '';   // encoded numeral (the hour)
+    var plateType = 'deutan';
+    var plateDesc = '';
+
+    var SALT = 0x9e37; // mixed into the minute-bucket seed
+    function buildField(seedExtra) {
+      var d = new Date();
+      var hour = (d.getHours() % 12) || 12;
+      plateNumber = '' + hour;
+
+      // Seed = current minute bucket XOR salt, so the dot field reshuffles
+      // every minute. Round(R) keeps separate sizes deterministic.
+      var seed = (Math.floor(Date.now() / 60000) ^ SALT ^ (Math.round(R) * 131) ^ (seedExtra || 0)) >>> 0;
+      var rnd = mulberry32(seed);
+
+      // Rotate deficiency type per regeneration; tritan rarer (real plates too).
+      var roll = rnd();
+      plateType = roll < 0.45 ? 'deutan' : (roll < 0.82 ? 'protan' : 'tritan');
+      plateDesc = DEFS[plateType].desc;
+      var pair = DEFS[plateType];
+
+      // Offscreen smooth-numeral mask, plate-sized, centered on the plate.
+      var maskSize = Math.round(R * 2);
+      var mask = createMask(maskSize, plateNumber);
+      var maskW = mask.size, maskData = mask.data;
+      var ox = cx - R, oy = cy - R; // top-left of the mask in screen space
+
+      prevDots = dots;
+      dots = [];
+
+      // Organic Poisson-disk dot field (no grid). Radii scale with plate size.
+      var minR = Math.max(2, R * 0.014), maxR = Math.max(4.5, R * 0.036);
+      var field = poissonDiskSample(cx, cy, R, minR, maxR, rnd);
+
+      for (var i = 0; i < field.length; i++) {
+        var dot = field[i];
+        // Sample the mask at the dot center; threshold > 128 = inside figure.
+        var px = Math.floor(dot.x - ox), py = Math.floor(dot.y - oy);
+        var isShape = false;
+        if (px >= 0 && px < maskW && py >= 0 && py < maskW) {
+          isShape = maskData[(py * maskW + px) * 4] > 128;
+        }
+        dots.push({
+          x: dot.x, y: dot.y, r: dot.r,
+          color: rndColor(isShape ? pair.fg : pair.bg, rnd)
+        });
+      }
+
+      fade = prevDots.length ? 0 : 1;
+      updateNote();
+    }
+
+    function updateNote() {
+      noteEl.innerHTML = '<b>' + plateNumber + '</b> &middot; ' +
+        plateType + ' (' + plateDesc + ')';
+    }
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx = W / 2; cy = H / 2;
+      R = Math.min(W, H) * 0.44;
+      buildField(1);
+      fade = 1;
+    }
+
+    function paintDots(list, alpha) {
+      ctx.globalAlpha = alpha;
+      for (var i = 0; i < list.length; i++) {
+        var dt = list[i];
+        ctx.fillStyle = dt.color;
+        ctx.beginPath(); ctx.arc(dt.x, dt.y, dt.r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function drawField() {
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, R + R * 0.02, 0, Math.PI * 2);
+      ctx.fillStyle = '#111'; ctx.fill();
+      ctx.clip();
+
+      if (fade < 1 && prevDots.length) paintDots(prevDots, 1 - fade);
+      paintDots(dots, fade < 1 ? fade : 1);
+
+      var vg = ctx.createRadialGradient(cx, cy, R * 0.5, cx, cy, R);
+      vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.22)');
+      ctx.fillStyle = vg; ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
+      ctx.restore();
+    }
+
+    function drawHand(angle, length, width, color, shadow) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+      ctx.lineCap = 'round';
+      if (shadow) { ctx.shadowColor = 'rgba(0,0,0,0.65)'; ctx.shadowBlur = 9; ctx.shadowOffsetY = 2; }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.beginPath();
+      ctx.moveTo(0, width * 0.6);
+      ctx.lineTo(0, -length);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    var lastMinute = new Date().getMinutes(); // resize() builds the initial plate; don't rebuild on frame 1 (avoids a load-time morph)
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function frame() {
+      var d = new Date();
+      var h = d.getHours(), m = d.getMinutes(), s = d.getSeconds(), ms = d.getMilliseconds();
+
+      // regenerate the plate every minute, with a smooth cross-fade
+      if (m !== lastMinute) {
+        lastMinute = m;
+        buildField(0);
+        var hh = (h % 12) || 12;
+        srEl.textContent = hh + ':' + pad(m) + '. Hidden plate reads ' +
+          plateNumber + ', ' + plateType + ' test.';
+      }
+      if (fade < 1) { fade = Math.min(1, fade + 0.04); }
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#0c0b09'; ctx.fillRect(0, 0, W, H);
+      drawField();
+
+      var secF = s + ms / 1000;
+      var minF = m + secF / 60;
+      var hourF = (h % 12) + minF / 60;
+
+      // larger, clearly-visible hands (the plate still reads underneath)
+      drawHand(hourF / 12 * Math.PI * 2, R * 0.52, Math.max(9, R * 0.045), 'rgba(255,255,255,0.97)', true);
+      drawHand(minF / 60 * Math.PI * 2, R * 0.8, Math.max(6, R * 0.031), 'rgba(255,255,255,0.97)', true);
+      drawHand(secF / 60 * Math.PI * 2, R * 0.86, Math.max(2.4, R * 0.01), 'rgba(232,83,58,0.97)', true);
+
+      ctx.beginPath(); ctx.arc(cx, cy, Math.max(8, R * 0.035), 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, Math.max(2.8, R * 0.013), 0, Math.PI * 2);
+      ctx.fillStyle = '#e8533a'; ctx.fill();
+
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('orientationchange', function () { requestAnimationFrame(resize); });
+    resize();
+    requestAnimationFrame(frame);
+  })();
+  </script>
+
+</body></html>
