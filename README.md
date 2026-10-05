@@ -7,12 +7,11 @@ to twelve. Every minute brings a fresh arrangement.
 
 Tap your wrist to show the hour and minute hands; tap again to hide them.
 The watch remembers your choice. Hands start hidden, leaving the plate on
-its own. Monochrome Pebbles show the numeral with filled dots among outlined
-circles. This is visual art. Its colors are not a calibrated vision test.
+its own. This is visual art. Its colors are not a calibrated vision test.
 
 ## Watches and build
 
-The face supports Basalt, Chalk, Diorite, Emery, Flint, and Gabbro. It runs
+The face supports the color Basalt, Chalk, Emery, and Gabbro watches. It runs
 offline without phone configuration or permissions. The plate sits in the
 center of each screen and uses 88% of its shorter dimension.
 
