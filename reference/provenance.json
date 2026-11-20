@@ -2,6 +2,7 @@
   "source": "Owner-supplied HTML",
   "author": "Luke Steuber",
   "license": "MIT",
-  "sha256": "c9d01194b96e04066f94a93cc8d505611aa8f0be18ef56f83f6938c26c44805b",
-  "adaptation": "Regenerating dot plate with optional hands."
+  "sha256": "8d909573fa59ad52da97641818bca9379c5eb84dd78fc43acefe9c2666392bb5",
+  "adaptation": "Regenerating dot plate with optional hands.",
+  "note": "One comment line naming a server path was shortened to colorblindness-test/index.html before the repository went public; the original file hash was c9d01194b96e04066f94a93cc8d505611aa8f0be18ef56f83f6938c26c44805b."
 }
