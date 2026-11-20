@@ -1,21 +1,49 @@
 # Ishihara
 
-![Ishihara on a color Pebble](evidence/basalt-hero.png)
+![Ishihara on a Pebble Time](evidence/basalt-hero.png)
 
-The local hour hides in a circle of colored dots. Look for a number from one
-to twelve. Every minute brings a fresh arrangement.
+A Pebble watchface that hides the hour in a circle of colored dots, like a
+color-vision test plate. Look for a number from one to twelve. Every minute
+brings a fresh arrangement.
 
-Tap your wrist to show the hour and minute hands; tap again to hide them.
-The watch remembers your choice. Hands start hidden, leaving the plate on
-its own. This is visual art. Its colors are not a calibrated vision test.
+Tap your wrist to show the hour and minute hands; tap again to hide them. The
+watch remembers your choice. Hands start hidden.
 
-## Watches and build
+This is visual art, not a vision test. The colors are rounded to Pebble's
+64-color palette and are not calibrated.
 
-The face supports the color Basalt, Chalk, Emery, and Gabbro watches. It runs
-offline without phone configuration or permissions. The plate sits in the
-center of each screen and uses 88% of its shorter dimension.
+[Get it on the Pebble Appstore](https://apps.repebble.com/6fa77e3f4a294024abca332a),
+where it is listed as Colorblind Clock.
 
-Install Pebble SDK 4.33.1 and Node.js, then run:
+## Watches
+
+Version 0.1.2 runs on the color watches: Pebble Time and Time Steel (Basalt),
+Pebble Time Round (Chalk), Pebble Time 2 (Emery) and Pebble Round 2 (Gabbro).
+It works offline, with no phone settings or permissions. The plate sits in the
+center of the screen and fills 88% of its shorter side. The face redraws once
+a minute.
+
+## How it works
+
+I made the original [Ishihara clock](https://datapoems.io/clocks/ishihara/)
+for the web; this is the native port. The HTML it was ported from and its
+checksum are in `reference/`.
+
+The port keeps the source's Arial numeral shapes, centered plate and
+variable-radius Poisson dot packing. It uses the original CIELAB palette
+recipes and per-dot variation, then rounds each color to the nearest Pebble
+color.
+
+The numeral masks in `src/c/masks.h` are raster spans from the source's
+canvas text drawing: Arial at weight 900, a font size of 55% of the plate
+diameter for one digit or 42% for two, and an 8% stroke. A normal build needs
+no font. To regenerate them, use macOS with Arial installed and a Chromium
+browser, then run `python3 tools/masks.py` (set `CHROME` to pick the browser
+executable). This repository does not include the Arial font.
+
+## Build
+
+Install Pebble SDK 4.33.1, Node.js and clang, then run:
 
 ```sh
 make test
@@ -23,40 +51,26 @@ pebble build --sdk 4.33.1
 pebble install --emulator basalt build/ishihara.pbw
 ```
 
-Host tests check all twelve masks at each native display size, minute changes,
-and noon and midnight encoding. They also compare 48 complete fields directly
-with the pinned source: circle positions, radii, palette selection, and every
-quantized color must agree.
+`make test` checks all twelve masks at each screen size, minute changes, and
+noon and midnight. It also compares 48 complete plates with the original web
+code: dot positions, radii, palette choice and every rounded color must match.
 
-The native checks use the Python environment installed with `pebble-tool`:
+The emulator check uses the Python environment that comes with `pebble-tool`:
 
 ```sh
 python test/emulator.py basalt --fresh
 ```
 
-Reports and captures go to `build/evidence/`. Each report records the SHA-256
-of the installed package and checks natural rollovers, minute regeneration,
-idle stability, and the hands preference after relaunch. Native field
-signatures must match the source-verified host geometry and colors. Physical-watch battery
-life and outdoor readability still need observation.
+It writes reports and screenshots to `build/evidence/`, and checks rollovers,
+the minute redraw, a still plate between minutes, and the hands setting after
+a relaunch.
 
-## Source
+`release/` holds the 0.1.0 and 0.1.1 watch packages and source archives. The
+screenshots in `evidence/` come from 0.1.1, which also ran on the
+black-and-white Pebble 2 and Pebble 2 Duo; 0.1.2 is color-only. Build logs in
+earlier commits and the release archives contain absolute paths from the
+original build machine.
 
-Luke Steuber created the original
-[Ishihara clock](https://datapoems.io/clocks/ishihara/) and this native adaptation
-under the MIT license. The supplied HTML and its checksum remain in `reference/`.
+## License
 
-Version 0.1.1 restores the source's Arial numeral proportions, centered plate,
-and variable-radius Poisson packing. It uses the original CIELAB palette
-recipes and per-dot variation, then rounds sRGB colors to Pebble's 64-color
-palette. The watch redraws once per minute. A tap adds hour and minute hands.
-
-The checked-in masks contain raster spans from the source's Canvas text
-operation: Arial at weight 900, a font size of 55% of the plate diameter for
-one digit or 42% for two, and an 8% stroke. They need no font during a normal
-build. To regenerate them, use macOS with Arial installed and a Chromium
-browser, then run `python3 tools/masks.py`. Set `CHROME` to select its executable.
-The project does not distribute the Arial font.
-
-`release/` retains each version's watch package and source archive. The source
-archive includes native evidence and builds independently outside this checkout.
+MIT. See [LICENSE](LICENSE).
